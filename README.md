@@ -1,5 +1,5 @@
 # Install jenkins on an ec2 instance
-terraform apply -var="jenkinsInstanceName=<NAME OF INSTANCE>" -var="public_key=<PUBLIC SSH KEY>"  -auto-approve
+terraform apply -var="jenkinsInstanceName=[NAME OF INSTANCE]" -var="public_key=[PUBLIC SSH KEY]"  -auto-approve
 
 e.g.
 
@@ -8,7 +8,7 @@ terraform apply -var="jenkinsInstanceName=JenkinsServer" -var="public_key=ssh-rs
 ## To obtain username and password for jenkins
 Login to the instance
 
-ssh -i <PRIVATE SSH KEY> bitnami@<EC2 INSTANCE PUBLIC IP>
+ssh -i [PRIVATE SSH KEY] bitnami@[EC2 INSTANCE PUBLIC IP]
 
 sudo cat /home/bitnami/bitnami_credentials
 
