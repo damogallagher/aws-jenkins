@@ -1,3 +1,13 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
+}
+
+# Configure the AWS Provider
 provider "aws" {
   region = "us-east-1"
 }
@@ -5,34 +15,30 @@ provider "aws" {
 variable "jenkinsInstanceName" {
   type = string
 }
-variable "instance_type" {
-  type    = string
-  default = "t3.small"
-}
-
 variable "public_key" {
   type = string
 }
 
-
+variable "instance_type" {
+  type    = string
+  default = "t3.small"
+}
 variable "ingress_rules" {
   type    = list(number)
   default = [22, 80, 443]
 }
-
 variable "egress_rules" {
   type    = list(number)
   default = [0]
 }
 
-
-resource "aws_key_pair" "jenkins" {
+resource "aws_key_pair" "jenkins_key" {
   key_name   = "jenkins-key"
   public_key = var.public_key
 }
 
 
-data "aws_ami_ids" "ubuntu" {
+data "aws_ami_ids" "jenkins_ami" {
   sort_ascending = false
 
   owners = ["aws-marketplace"]
@@ -72,10 +78,10 @@ resource "aws_security_group" "jenkins_security_group" {
 
 
 resource "aws_instance" "jenkins_instance" {
-  ami             = data.aws_ami_ids.ubuntu.ids[0]
+  ami             = data.aws_ami_ids.jenkins_ami.ids[0]
   instance_type   = var.instance_type
   security_groups = [aws_security_group.jenkins_security_group.name]
-  key_name        = aws_key_pair.jenkins.key_name
+  key_name        = aws_key_pair.jenkins_key.key_name
   tags = {
     Name = var.jenkinsInstanceName
   }

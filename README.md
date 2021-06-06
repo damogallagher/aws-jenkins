@@ -8,7 +8,7 @@ terraform apply -var="jenkinsInstanceName=JenkinsServer" -var="public_key=ssh-rs
 ## To obtain username and password for jenkins
 Login to the instance
 
-ssh -i [PRIVATE SSH KEY] bitnami@[EC2 INSTANCE PUBLIC IP]
+ssh -i [PATH TO PRIVATE SSH KEY] bitnami@[EC2 INSTANCE PUBLIC IP]
 
 sudo cat /home/bitnami/bitnami_credentials
 
