@@ -15,7 +15,6 @@ provider "aws" {
 variable "public_key" {
   type = string
 }
-<<<<<<< HEAD
 variable "jenkinsInstanceName" {
   type    = string
   default = "ohcfsjenkinspl"
@@ -27,10 +26,6 @@ variable "instance_type" {
 variable "vpc" {
   type    = string
   default = "vpc-07e029f6b02a92b5e"
-=======
-variable "public_key" {
-  type = string
->>>>>>> 35a6557da54c7e743c03bad424293a1a559de166
 }
 variable "subnets" {
   type    = list(string)
@@ -159,14 +154,6 @@ resource "aws_elb" "jenkins_elb" {
     interval            = 30
   }
 
-<<<<<<< HEAD
-=======
-resource "aws_instance" "jenkins_instance" {
-  ami             = data.aws_ami_ids.jenkins_ami.ids[0]
-  instance_type   = var.instance_type
-  security_groups = [aws_security_group.jenkins_security_group.name]
-  key_name        = aws_key_pair.jenkins_key.key_name
->>>>>>> 35a6557da54c7e743c03bad424293a1a559de166
   tags = {
     Name = "jenkins-elb"
   }
