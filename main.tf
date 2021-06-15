@@ -1,3 +1,13 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
+}
+
+# Configure the AWS Provider
 provider "aws" {
   region = "us-east-1"
 }
@@ -5,6 +15,7 @@ provider "aws" {
 variable "public_key" {
   type = string
 }
+<<<<<<< HEAD
 variable "jenkinsInstanceName" {
   type    = string
   default = "ohcfsjenkinspl"
@@ -16,6 +27,10 @@ variable "instance_type" {
 variable "vpc" {
   type    = string
   default = "vpc-07e029f6b02a92b5e"
+=======
+variable "public_key" {
+  type = string
+>>>>>>> 35a6557da54c7e743c03bad424293a1a559de166
 }
 variable "subnets" {
   type    = list(string)
@@ -30,25 +45,26 @@ variable "subnets" {
 #   default = ["subnet-04a37dd89db10c05e","subnet-0708558cad4d89770"]
 # }
 
-
+variable "instance_type" {
+  type    = string
+  default = "t3.small"
+}
 variable "ingress_rules" {
   type    = list(number)
   default = [22, 80, 443]
 }
-
 variable "egress_rules" {
   type    = list(number)
   default = [0]
 }
 
-
-resource "aws_key_pair" "jenkins" {
+resource "aws_key_pair" "jenkins_key" {
   key_name   = "jenkins-key"
   public_key = var.public_key
 }
 
 
-data "aws_ami_ids" "ubuntu" {
+data "aws_ami_ids" "jenkins_ami" {
   sort_ascending = false
 
   owners = ["aws-marketplace"]
@@ -143,6 +159,14 @@ resource "aws_elb" "jenkins_elb" {
     interval            = 30
   }
 
+<<<<<<< HEAD
+=======
+resource "aws_instance" "jenkins_instance" {
+  ami             = data.aws_ami_ids.jenkins_ami.ids[0]
+  instance_type   = var.instance_type
+  security_groups = [aws_security_group.jenkins_security_group.name]
+  key_name        = aws_key_pair.jenkins_key.key_name
+>>>>>>> 35a6557da54c7e743c03bad424293a1a559de166
   tags = {
     Name = "jenkins-elb"
   }
