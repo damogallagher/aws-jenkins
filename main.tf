@@ -40,10 +40,6 @@ variable "subnets" {
 #   default = ["subnet-04a37dd89db10c05e","subnet-0708558cad4d89770"]
 # }
 
-variable "instance_type" {
-  type    = string
-  default = "t3.small"
-}
 variable "ingress_rules" {
   type    = list(number)
   default = [22, 80, 443]
@@ -161,9 +157,9 @@ resource "aws_elb" "jenkins_elb" {
 
 resource "aws_launch_template" "jenkins_template" {
   name_prefix   = "jenkins"
-  image_id      = data.aws_ami_ids.ubuntu.ids[0]
+  image_id      = data.aws_ami_ids.jenkins_ami.ids[0]
   instance_type = var.instance_type
-  key_name      = aws_key_pair.jenkins.key_name
+  key_name      = aws_key_pair.jenkins_key.key_name
 
   vpc_security_group_ids  = [
     aws_security_group.jenkins_security_group.id
